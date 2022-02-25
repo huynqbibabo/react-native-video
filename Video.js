@@ -25,7 +25,7 @@ export default class Video extends Component {
     };
   }
 
-  setNativeProps(nativeProps) {
+  setNativeProps = (nativeProps) => {
     this._root.setNativeProps(nativeProps);
   }
 
@@ -373,6 +373,10 @@ Video.propTypes = {
   /* Native only */
   src: PropTypes.object,
   seek: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.object,
+  ]),
+  setNativeProps: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.object,
   ]),
