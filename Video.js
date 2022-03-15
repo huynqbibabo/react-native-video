@@ -1,12 +1,20 @@
 import React, {Component, PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, requireNativeComponent, NativeModules, View, ViewPropTypes, Platform, findNodeHandle } from 'react-native';
+import { StyleSheet, requireNativeComponent, NativeModules, View, ViewPropTypes, Platform, findNodeHandle, Image } from 'react-native';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 import TextTrackType from './TextTrackType';
 import FilterType from './FilterType';
 import DRMType from './DRMType';
 import VideoResizeMode from './VideoResizeMode.js';
-import FastImage from 'react-native-fast-image';
+import FastImage, {FastImageProps} from 'react-native-fast-image';
+
+const RCTVideo = requireNativeComponent('RCTVideo', Video, {
+  nativeOnly: {
+    src: true,
+    seek: true,
+    fullscreen: true,
+  },
+});
 
 const styles = StyleSheet.create({
   base: {
@@ -344,7 +352,7 @@ export default class Video extends PureComponent {
           style={StyleSheet.absoluteFill}
         />
         {this.state.showPoster && (
-          <FastImage style={posterStyle} source={{ uri: this.props.poster }} />
+          <FastImage style={posterStyle} resizeMode={this.props.posterResizeMode || 'contain'} source={{ uri: this.props.poster }} />
         )}
       </View>
     );
@@ -513,11 +521,3 @@ Video.propTypes = {
   rotation: PropTypes.number,
   ...ViewPropTypes,
 };
-
-const RCTVideo = requireNativeComponent('RCTVideo', Video, {
-  nativeOnly: {
-    src: true,
-    seek: true,
-    fullscreen: true,
-  },
-});
