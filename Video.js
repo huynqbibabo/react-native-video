@@ -1,11 +1,12 @@
 import React, {Component, PureComponent} from 'react';
 import PropTypes from 'prop-types';
-import { StyleSheet, requireNativeComponent, NativeModules, View, ViewPropTypes, Image, Platform, findNodeHandle } from 'react-native';
+import { StyleSheet, requireNativeComponent, NativeModules, View, ViewPropTypes, Platform, findNodeHandle } from 'react-native';
 import resolveAssetSource from 'react-native/Libraries/Image/resolveAssetSource';
 import TextTrackType from './TextTrackType';
 import FilterType from './FilterType';
 import DRMType from './DRMType';
 import VideoResizeMode from './VideoResizeMode.js';
+import FastImage from 'react-native-fast-image';
 
 const styles = StyleSheet.create({
   base: {
@@ -249,7 +250,7 @@ export default class Video extends PureComponent {
           NativeModules.VideoManager.setLicenseError && NativeModules.VideoManager.setLicenseError(error, findNodeHandle(this._root));
         });
       } else {
-        NativeModules.VideoManager.setLicenseError && NativeModules.VideoManager.setLicenseError("No spc received", findNodeHandle(this._root));
+        NativeModules.VideoManager.setLicenseError && NativeModules.VideoManager.setLicenseError('No spc received', findNodeHandle(this._root));
       }
     }
   }
@@ -343,7 +344,7 @@ export default class Video extends PureComponent {
           style={StyleSheet.absoluteFill}
         />
         {this.state.showPoster && (
-          <Image style={posterStyle} source={{ uri: this.props.poster }} />
+          <FastImage style={posterStyle} source={{ uri: this.props.poster }} />
         )}
       </View>
     );
@@ -407,7 +408,7 @@ Video.propTypes = {
   ]),
   drm: PropTypes.shape({
     type: PropTypes.oneOf([
-      DRMType.CLEARKEY, DRMType.FAIRPLAY, DRMType.WIDEVINE, DRMType.PLAYREADY
+      DRMType.CLEARKEY, DRMType.FAIRPLAY, DRMType.WIDEVINE, DRMType.PLAYREADY,
     ]),
     licenseServer: PropTypes.string,
     headers: PropTypes.shape({}),
